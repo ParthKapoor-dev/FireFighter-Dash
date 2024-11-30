@@ -25,7 +25,6 @@ function WoosmapMap({ center, zoom }) {
     const woosmap = useWoosmap();
     const [mapInstance, setMapInstance] = useState(null);
 
-
     useEffect(() => {
         if (mapRef.current && !mapInstance) {
             const map = new woosmap.map.Map(mapRef.current, {
@@ -41,7 +40,6 @@ function WoosmapMap({ center, zoom }) {
             indoorRenderer.setMap(map);
 
             createAnimatedCircle(map, center, 50, 30, 1)
-
 
             const marker = new woosmap.map.Marker({
                 position: center,
