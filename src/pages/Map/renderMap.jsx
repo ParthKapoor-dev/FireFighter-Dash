@@ -40,7 +40,22 @@ function WoosmapMap({ center, zoom }) {
 
             indoorRenderer.setMap(map);
 
-            createAnimatedCircle(map , center , 50 , 30 , 1)
+            createAnimatedCircle(map, center, 50, 30, 1)
+
+
+            const marker = new woosmap.map.Marker({
+                position: center,
+                icon: {
+                    url: "https://images.woosmap.com/marker.png",
+                    scaledSize: {
+                        height: 50,
+                        width: 32,
+                    },
+                },
+            });
+
+            marker.setMap(map);
+
         }
     }, [woosmap, zoom, center]);
 
