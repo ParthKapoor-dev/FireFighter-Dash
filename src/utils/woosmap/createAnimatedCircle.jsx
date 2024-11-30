@@ -60,38 +60,3 @@ export default function createAnimatedCircle(map, center, intensity , interval ,
     // Add the overlay to the map
     overlay.setMap(map);
 };
-
-
-
-// const createAnimatedCircle = (map, center, intensity, interval, increment) => {
-//     const maxRadius = intensity;
-//     let currentRadius = 0;
-
-//     const circle = new woosmap.map.Circle({
-//         map,
-//         center,
-//         radius: currentRadius,
-//         strokeColor: "rgba(255, 69, 0, 1)", // Fire red color
-//         strokeOpacity: 0.7,
-//         strokeWeight: 2,
-//         fillColor: "rgba(255, 69, 0, 0.5)", // Translucent red
-//         fillOpacity: 0.5,
-//         zIndex: 1000
-//     });
-
-//     const animateCircle = () => {
-//         if (currentRadius < maxRadius) {
-//             currentRadius += increment;
-//             circle.setRadius(currentRadius);
-//         } else {
-//             // Reset radius for wave effect
-//             currentRadius = 0;
-//         }
-//     };
-
-//     // Animate the circle
-//     const animationInterval = setInterval(animateCircle, interval);
-
-//     // Clear interval on unmount
-//     return () => clearInterval(animationInterval);
-// };

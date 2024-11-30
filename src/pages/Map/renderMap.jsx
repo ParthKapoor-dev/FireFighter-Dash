@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { WoosmapAPIProvider } from "../../context/MapContext";
 import useWoosmap from "../../hooks/useWoosmap";
-import createAnimatedCircle from "../../utils/woosmap/createAnimatedCirlce";
+import createAnimatedCircle from "../../utils/woosmap/createAnimatedCircle";
+import createMarker from "../../utils/woosmap/createMarker";
 
 export default function RenderMap() {
 
@@ -13,20 +14,19 @@ export default function RenderMap() {
     return (
         <WoosmapAPIProvider
             apiKey={import.meta.env.VITE_WOOSMAP_PUBLIC_API_KEY}>
-
-            <WoosmapMap center={initialPosition} zoom={19.5}></WoosmapMap>
-
+            <MapScreen center={initialPosition} zoom={19.5}></MapScreen>
         </WoosmapAPIProvider>
     );
 };
 
-function WoosmapMap({ center, zoom }) {
+function MapScreen({ center, zoom }) {
     const mapRef = useRef(null);
     const woosmap = useWoosmap();
     const [mapInstance, setMapInstance] = useState(null);
 
     useEffect(() => {
         if (mapRef.current && !mapInstance) {
+
             const map = new woosmap.map.Map(mapRef.current, {
                 zoom,
                 center,
@@ -36,23 +36,11 @@ function WoosmapMap({ center, zoom }) {
             const indoorRenderer = new woosmap.map.IndoorRenderer({
                 venue: import.meta.env.VITE_VENUE
             });
-
             indoorRenderer.setMap(map);
 
             createAnimatedCircle(map, center, 50, 30, 1)
 
-            const marker = new woosmap.map.Marker({
-                position: center,
-                icon: {
-                    url: "https://images.woosmap.com/marker.png",
-                    scaledSize: {
-                        height: 50,
-                        width: 32,
-                    },
-                },
-            });
-
-            marker.setMap(map);
+            createMarker(map, center, null);
 
         }
     }, [woosmap, zoom, center]);
