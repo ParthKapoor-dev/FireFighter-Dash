@@ -3,6 +3,7 @@ import { WoosmapAPIProvider } from "../../context/MapContext";
 import useWoosmap from "../../hooks/useWoosmap";
 import createAnimatedCircle from "../../utils/woosmap/createAnimatedCircle";
 import createMarker from "../../utils/woosmap/createMarker";
+import { Position } from "../../types/woosmap";
 
 export default function RenderMap() {
 
@@ -14,36 +15,49 @@ export default function RenderMap() {
     return (
         <WoosmapAPIProvider
             apiKey={import.meta.env.VITE_WOOSMAP_PUBLIC_API_KEY}>
-            <MapScreen center={initialPosition} zoom={19.5}></MapScreen>
+
+            <MapScreen
+                center={initialPosition}
+                zoom={19.5}
+                venue={import.meta.env.VITE_ENV}
+            />
+
         </WoosmapAPIProvider>
     );
 };
 
-function MapScreen({ center, zoom }) {
+interface MapScreenProps {
+    center: Position,
+    zoom: number,
+    venue: string
+}
+
+function MapScreen({ center, zoom, venue }: MapScreenProps) {
     const mapRef = useRef(null);
-    const woosmap = useWoosmap();
-    const [mapInstance, setMapInstance] = useState(null);
+    const wsmap : typeof woosmap = useWoosmap();
+    const [mapInstance, setMapInstance] = useState<woosmap.map.Map | null>(null);
 
     useEffect(() => {
         if (mapRef.current && !mapInstance) {
 
-            const map = new woosmap.map.Map(mapRef.current, {
+            const map = new wsmap.map.Map(mapRef.current, {
                 zoom,
                 center,
             });
             setMapInstance(map);
 
-            const indoorRenderer = new woosmap.map.IndoorRenderer({
-                venue: import.meta.env.VITE_VENUE
+            const indoorRenderer = new wsmap.map.IndoorRenderer({
+                venue
             });
             indoorRenderer.setMap(map);
 
             createAnimatedCircle(map, center, 50, 30, 1)
 
-            createMarker(map, center, null);
+            createMarker(wsmap, map, center, null);
+
 
         }
-    }, [woosmap, zoom, center]);
+    }, [wsmap, zoom, center]);
 
     return (
         <div ref={mapRef} style={{ width: "100%", height: "100vh" }}></div>

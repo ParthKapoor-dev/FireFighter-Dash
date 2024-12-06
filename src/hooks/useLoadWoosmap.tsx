@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 
-export default function useLoadWoosmap(apiKey) {
+export default function useLoadWoosmap(apiKey : string) {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {

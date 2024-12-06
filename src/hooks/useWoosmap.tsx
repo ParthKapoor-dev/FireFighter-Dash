@@ -3,11 +3,11 @@ import { MapContext } from "../context/MapContext";
 
 export default function useWoosmap(){
 
-    const woosmap = useContext(MapContext);
+    const wsmap : typeof woosmap = useContext(MapContext);
 
-    if(!woosmap){
+    if(!wsmap){
         console.log("Woosmap Context Error");
     }
 
-    return woosmap || null;
+    return wsmap || null;
 }
